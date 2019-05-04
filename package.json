@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "serve": "parcel index.html",
+    "watch": "parcel watch index.html"
+  },
   "devDependencies": {
-    "parcel": "^1.12.3"
+    "parcel": "^1.12.3",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.1"
   }
 }
