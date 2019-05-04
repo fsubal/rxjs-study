@@ -1,3 +1,6 @@
+import { fromEvent, merge } from 'rxjs'
+import { mapTo } from 'rxjs/operators'
+
 export default class Canvas {
   private context = this.canvas.getContext('2d')
   private dragging = false
@@ -7,22 +10,40 @@ export default class Canvas {
     y: 0
   }
 
+  private readonly mousedown$ = fromEvent<MouseEvent>(this.canvas, 'mousedown')
+  private readonly mouseup$ = fromEvent<MouseEvent>(this.canvas, 'mouseup')
+  private readonly mouseout$ = fromEvent<MouseEvent>(this.canvas, 'mouseout')
+  private readonly mousemove$ = fromEvent<MouseEvent>(this.canvas, 'mousemove')
+
   constructor(readonly canvas: HTMLCanvasElement) {
     this.canvas.width = 500
     this.canvas.height = 500
 
-    this.canvas.addEventListener('mousedown', this.dragStart)
-    this.canvas.addEventListener('mouseup', this.dragEnd)
-    this.canvas.addEventListener('mouseout', this.dragEnd)
-    this.canvas.addEventListener('mousemove', e => {
-      this.draw(e.layerX, e.layerY)
+    merge(
+      // drag 開始
+      this.mousedown$.pipe(mapTo(true)),
+
+      // drag 終了
+      this.mouseup$.pipe(mapTo(false)),
+      this.mouseout$.pipe(mapTo(false)),
+    ).subscribe(dragging => {
+      this.dragging = dragging
+
+      if (dragging) {
+        this.context.beginPath()
+      } else {
+        this.context.closePath()
+      }
     })
+
+    this.mousemove$.subscribe(e => this.draw(e.layerX, e.layerY))
   }
 
   private readonly draw = (x: number, y: number) => {
     if(!this.dragging) {
       return
     }
+
     this.context.lineCap = 'round'
     this.context.lineJoin = 'round'
     this.context.lineWidth = 2
@@ -39,20 +60,5 @@ export default class Canvas {
 
     this.lastPosition.x = x
     this.lastPosition.y = y
-  }
-
-  private readonly clear = () => {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
-  }
-
-  private readonly dragStart = () => {
-    this.context.beginPath()
-
-    this.dragging = true
-  }
-
-  private readonly dragEnd = () => {
-    this.context.closePath()
-    this.dragging = false
   }
 }
