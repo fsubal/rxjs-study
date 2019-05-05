@@ -12,5 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const state$ = store$.pipe(update)
   const dispatch = (signal: Signals) => store$.next(signal)
 
+  state$.subscribe(console.log)
+
   new Canvas(canvas, state$, dispatch)
 })

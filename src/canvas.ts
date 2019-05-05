@@ -38,6 +38,7 @@ export default class Canvas {
         this.context.beginPath()
       } else {
         this.context.closePath()
+        this.dispatch({ type: "increment", payload: { by: 1 } })
       }
     })
 
