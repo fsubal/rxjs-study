@@ -10,7 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const store$ = new Subject<Signals>()
   const state$ = store$.pipe(update)
-  const dispatch = (signal: Signals) => store$.next(signal)
+
+  const dispatch = (signal: Signals | Promise<Signals>) => {
+    if (signal instanceof Promise) {
+      signal.then(store$.next)
+      return
+    }
+
+    store$.next(signal)
+  }
 
   new Canvas(canvas, state$, dispatch)
 })
