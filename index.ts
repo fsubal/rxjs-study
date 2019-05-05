@@ -1,6 +1,7 @@
 import Canvas from "./src/canvas"
 import { Subject } from "rxjs"
-import update, { Messages } from "./src/update"
+import update from "./src/update"
+import { Messages } from "./src/update/message"
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.querySelector<HTMLCanvasElement>("#app")

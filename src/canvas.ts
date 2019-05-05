@@ -1,7 +1,7 @@
 import { fromEvent, merge, Observable } from "rxjs"
 import { mapTo } from "rxjs/operators"
-import { Messages } from "./update"
 import { Model } from "./model"
+import Msg, { Messages } from "./update/message"
 
 export default class Canvas {
   private context = this.canvas.getContext("2d")
@@ -39,7 +39,7 @@ export default class Canvas {
         this.context.beginPath()
       } else {
         this.context.closePath()
-        this.dispatch({ type: "increment", payload: { by: 1 } })
+        this.dispatch(Msg.increment(1))
       }
     })
 

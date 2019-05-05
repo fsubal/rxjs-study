@@ -1,12 +1,7 @@
 import immer from "immer"
 import { scan } from "rxjs/operators"
-import { Msg } from "../types"
 import initial, { Model } from "../model"
-
-export type Messages =
-  | Msg<"init", void>
-  | Msg<"increment", { by: number }>
-  | Msg<"decrement", { by: number }>
+import { Messages } from "./message"
 
 export default scan<Messages, Model>(
   (currentState, msg) =>
