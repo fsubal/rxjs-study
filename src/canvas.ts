@@ -1,20 +1,20 @@
-import { fromEvent, merge, Observable } from 'rxjs'
-import { mapTo } from 'rxjs/operators'
-import { Signal } from './types'
+import { fromEvent, merge, Observable } from "rxjs"
+import { mapTo } from "rxjs/operators"
+import { Signal } from "./types"
 
 export default class Canvas {
-  private context = this.canvas.getContext('2d')
+  private context = this.canvas.getContext("2d")
   private dragging = false
-  private color = '#000'
+  private color = "#000"
   private lastPosition = {
     x: 0,
     y: 0
   }
 
-  private readonly mousedown$ = fromEvent<MouseEvent>(this.canvas, 'mousedown')
-  private readonly mouseup$ = fromEvent<MouseEvent>(this.canvas, 'mouseup')
-  private readonly mouseout$ = fromEvent<MouseEvent>(this.canvas, 'mouseout')
-  private readonly mousemove$ = fromEvent<MouseEvent>(this.canvas, 'mousemove')
+  private readonly mousedown$ = fromEvent<MouseEvent>(this.canvas, "mousedown")
+  private readonly mouseup$ = fromEvent<MouseEvent>(this.canvas, "mouseup")
+  private readonly mouseout$ = fromEvent<MouseEvent>(this.canvas, "mouseout")
+  private readonly mousemove$ = fromEvent<MouseEvent>(this.canvas, "mousemove")
 
   constructor(
     readonly canvas: HTMLCanvasElement,
@@ -29,7 +29,7 @@ export default class Canvas {
 
       // drag 終了
       this.mouseup$.pipe(mapTo(false)),
-      this.mouseout$.pipe(mapTo(false)),
+      this.mouseout$.pipe(mapTo(false))
     ).subscribe(dragging => {
       this.dragging = dragging
 
@@ -44,12 +44,12 @@ export default class Canvas {
   }
 
   private readonly draw = (x: number, y: number) => {
-    if(!this.dragging) {
+    if (!this.dragging) {
       return
     }
 
-    this.context.lineCap = 'round'
-    this.context.lineJoin = 'round'
+    this.context.lineCap = "round"
+    this.context.lineJoin = "round"
     this.context.lineWidth = 2
     this.context.strokeStyle = this.color
 

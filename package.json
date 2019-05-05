@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "parcel": "^1.12.3",
+    "prettier": "^1.17.0",
     "typescript": "^3.4.5"
   },
   "dependencies": {
