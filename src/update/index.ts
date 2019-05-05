@@ -11,23 +11,25 @@ export type Messages =
 export default scan<Messages, Model>(
   (currentState, msg) =>
     immer(currentState, state => {
-      case (msg) {
-        when ["init", undefined] -> {
+      switch (msg.type) {
+        case "init": {
           state.dragging = false
           break
         }
 
-        when ["increment", { by }] -> {
+        case "increment": {
+          const { by } = msg.payload
           state.count += by
           break
         }
 
-        when ["decrement", { by }] -> {
+        case "decrement": {
+          const { by } = msg.payload
           state.count -= by
           break
         }
 
-        when _ -> {
+        default: {
           unreachable(msg)
         }
       }
