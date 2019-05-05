@@ -1,6 +1,6 @@
 import Canvas from "./src/canvas"
 import { Subject } from "rxjs"
-import update, { Signals } from "./src/update"
+import update, { Messages } from "./src/update"
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.querySelector<HTMLCanvasElement>("#app")
@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return
   }
 
-  const store$ = new Subject<Signals>()
-  const state$ = store$.pipe(update)
-  const dispatch = (signal: Signals) => store$.next(signal)
+  const store$ = new Subject<Messages>()
+  const model$ = store$.pipe(update)
+  const dispatch = (msg: Messages) => store$.next(msg)
 
-  state$.subscribe(console.log)
+  model$.subscribe(console.log)
 
-  new Canvas(canvas, state$, dispatch)
+  new Canvas(canvas, model$, dispatch)
 })

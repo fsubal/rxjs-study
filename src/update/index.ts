@@ -1,49 +1,40 @@
 import immer from "immer"
 import { scan } from "rxjs/operators"
-import { Signal } from "../types"
+import { Msg } from "../types"
+import initial, { Model } from "../model"
 
-export interface State {
-  dragging: boolean
-  count: number
-}
+export type Messages =
+  | Msg<"init", void>
+  | Msg<"increment", { by: number }>
+  | Msg<"decrement", { by: number }>
 
-const initialState: State = {
-  dragging: true,
-  count: 0
-}
-
-export type Signals =
-  | Signal<"init", void>
-  | Signal<"increment", { by: number }>
-  | Signal<"decrement", { by: number }>
-
-export default scan<Signals, State>(
-  (currentState, signal) =>
+export default scan<Messages, Model>(
+  (currentState, msg) =>
     immer(currentState, state => {
-      switch (signal.type) {
+      switch (msg.type) {
         case "init": {
           state.dragging = false
           break
         }
 
         case "increment": {
-          const { by } = signal.payload
+          const { by } = msg.payload
           state.count += by
           break
         }
 
         case "decrement": {
-          const { by } = signal.payload
+          const { by } = msg.payload
           state.count -= by
           break
         }
 
         default: {
-          unreachable(signal)
+          unreachable(msg)
         }
       }
     }),
-  initialState
+  initial
 )
 
 const unreachable = (_: never) => {
