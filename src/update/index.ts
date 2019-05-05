@@ -46,6 +46,6 @@ export default scan<Signals, State>(
   initialState
 )
 
-const unreachable = (signal: never) => {
-  throw new Error(`unreachable(${JSON.stringify(signal)})`)
+const unreachable = (_: never) => {
+  // do nothing
 }
