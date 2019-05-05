@@ -1,5 +1,6 @@
-import { fromEvent, merge } from 'rxjs'
+import { fromEvent, merge, Observable } from 'rxjs'
 import { mapTo } from 'rxjs/operators'
+import { Signal } from './types'
 
 export default class Canvas {
   private context = this.canvas.getContext('2d')
@@ -15,7 +16,10 @@ export default class Canvas {
   private readonly mouseout$ = fromEvent<MouseEvent>(this.canvas, 'mouseout')
   private readonly mousemove$ = fromEvent<MouseEvent>(this.canvas, 'mousemove')
 
-  constructor(readonly canvas: HTMLCanvasElement) {
+  constructor(
+    readonly canvas: HTMLCanvasElement,
+    readonly signal$: Observable<Signal<any, any>>
+  ) {
     this.canvas.width = 500
     this.canvas.height = 500
 

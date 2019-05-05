@@ -1,4 +1,5 @@
-import Canvas from "./src/canvas";
+import Canvas from "./src/canvas"
+import { from } from "rxjs"
 
 document.addEventListener('DOMContentLoaded', () => {
   const canvas = document.querySelector<HTMLCanvasElement>('#app')
@@ -6,5 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return
   }
 
-  new Canvas(canvas)
+  const signal$ = from([{ type: 'init', payload: {} }])
+
+  new Canvas(canvas, signal$)
 })
