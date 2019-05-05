@@ -1,6 +1,6 @@
 import { fromEvent, merge, Observable } from "rxjs"
 import { mapTo } from "rxjs/operators"
-import { Signal } from "./types"
+import { State } from "./update"
 
 export default class Canvas {
   private context = this.canvas.getContext("2d")
@@ -18,7 +18,7 @@ export default class Canvas {
 
   constructor(
     readonly canvas: HTMLCanvasElement,
-    readonly signal$: Observable<Signal<any, any>>
+    readonly state$: Observable<State>
   ) {
     this.canvas.width = 500
     this.canvas.height = 500
