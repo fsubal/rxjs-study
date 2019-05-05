@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "serve": "parcel index.html",
-    "watch": "parcel watch index.html"
+    "watch": "parcel watch index.html",
+    "production": "parcel build index.html --no-source-maps"
   },
   "devDependencies": {
     "parcel": "^1.12.3",
