@@ -1,9 +1,10 @@
-import { fromEvent, merge, Observable } from "rxjs"
+import { fromEvent, merge } from "rxjs"
 import { mapTo } from "rxjs/operators"
 import { Model } from "./model"
 import Msg, { Messages } from "./update/message"
+import { Renderable } from "./types"
 
-export default class Canvas {
+export default class Canvas implements Renderable<Model> {
   private context = this.canvas.getContext("2d")
   private dragging = false
   private color = "#000"
@@ -19,7 +20,6 @@ export default class Canvas {
 
   constructor(
     readonly canvas: HTMLCanvasElement,
-    readonly model$: Observable<Model>,
     readonly dispatch: (msg: Messages) => void
   ) {
     this.canvas.width = 500
@@ -44,6 +44,10 @@ export default class Canvas {
     })
 
     this.mousemove$.subscribe(e => this.draw(e.layerX, e.layerY))
+  }
+
+  render = (state: Model) => {
+    console.log(state)
   }
 
   private readonly draw = (x: number, y: number) => {
